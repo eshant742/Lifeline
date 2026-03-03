@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Lifeline" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/emergency_red</item>
+        <item name="colorPrimaryDark">@color/emergency_red_dark</item>
+        <item name="colorAccent">@color/emergency_red</item>
+        <item name="android:windowBackground">@color/dark_background</item>
+        <item name="android:statusBarColor">@color/dark_surface</item>
+        <item name="android:navigationBarColor">@color/dark_background</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+</resources>
