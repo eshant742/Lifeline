@@ -1,9 +1,0 @@
-\chapter*{ABSTRACT}
-
-During severe natural disasters such as earthquakes, floods, or cyclones, traditional communication infrastructure like cellular towers and internet service providers frequently fail, leaving affected individuals completely isolated. In such critical scenarios, the inability to broadcast a distress signal can result in a delayed rescue response and loss of life. 
-
-This project introduces \textbf{Lifeline}, a highly resilient Android application designed to facilitate offline peer-to-peer emergency communication. Lifeline enables users to broadcast distress signals (SOS) completely independent of a SIM card or internet connection. By utilizing the Google Nearby Connections API, the application forms a decentralized mesh network across smartphones using Bluetooth Low Energy and WiFi Direct. As devices come into proximity, SOS messages are silently relayed from one device to another, continuously expanding the rescue radius. 
-
-The application further incorporates offline map capabilities using `osmdroid`, allowing rescuers to pinpoint distress signals geographically without requiring an active data connection. Finally, if any node within the mesh network eventually acquires internet access, Lifeline automatically syncs the collected SOS signals to a centralized Firebase Firestore database, enabling remote authorities to assess the disaster impact in real-time. This project successfully demonstrates a functional proof-of-concept for a reliable, offline-first emergency communication system.
-
-\cleardoublepage
