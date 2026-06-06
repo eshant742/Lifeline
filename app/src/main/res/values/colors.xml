@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Emergency Theme Colors -->
-    <color name="emergency_red">#D32F2F</color>
-    <color name="emergency_red_dark">#B71C1C</color>
-    <color name="safe_green">#388E3C</color>
-    <color name="safe_green_dark">#2E7D32</color>
+    <!-- Modern SaaS Emergency Theme Colors -->
+    <color name="emergency_red">#EF4444</color>
+    <color name="emergency_red_dark">#DC2626</color>
+    <color name="safe_green">#10B981</color>
+    <color name="safe_green_dark">#059669</color>
 
-    <!-- Dark Theme -->
-    <color name="dark_background">#1A1A2E</color>
-    <color name="dark_surface">#16213E</color>
-    <color name="dark_surface_variant">#0F3460</color>
+    <!-- Deep Dark Theme (Linear/Vercel style) -->
+    <color name="dark_background">#0A0A0A</color>
+    <color name="dark_surface">#111111</color>
+    <color name="dark_surface_variant">#1A1A1A</color>
+    
+    <!-- Subtle borders and lines -->
+    <color name="border_color">#27272A</color>
 
     <!-- Text Colors -->
-    <color name="text_primary">#EAEAEA</color>
-    <color name="text_secondary">#9E9E9E</color>
+    <color name="text_primary">#FAFAFA</color>
+    <color name="text_secondary">#A1A1AA</color>
 
     <!-- Accents -->
-    <color name="warning_amber">#FFA000</color>
+    <color name="warning_amber">#F59E0B</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 </resources>
