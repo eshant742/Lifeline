@@ -1,0 +1,37 @@
+% Chapter 3
+
+\chapter{System Design and Methodology} 
+
+\label{Chapter3}
+
+\section{System Architecture}
+The Lifeline application follows the robust Model-View-ViewModel (MVVM) architectural pattern recommended by Google for modern Android development. This architecture ensures a strict separation of concerns, making the application stable, scalable, and easy to maintain by a team of developers. 
+
+\subsection{The MVVM Components}
+\begin{itemize}
+    \item \textbf{Model (Data Layer):} This layer is completely isolated from the UI. It contains the data structures (e.g., `MessageEntity` which defines the schema for an SOS message) and the Room Database repositories. The repositories act as the single source of truth, handling all local storage operations and deciding when to fetch or sync data.
+    \item \textbf{ViewModel:} The ViewModel acts as the crucial bridge between the Model and the View. It manages the UI-related data in a lifecycle-conscious way (meaning data isn't lost during screen rotations). It also contains the business logic to interact with the Nearby Connections API, initiating discovery and managing active peer connections.
+    \item \textbf{View (UI Layer):} The UI layer consists of the XML layouts and Kotlin Activities/Fragments. It strictly observes the ViewModel for state changes and updates the screen accordingly (e.g., updating the map when a new SOS coordinate is received).
+\end{itemize}
+
+\section{Core Technologies Stack}
+To fulfill the complex offline and synchronization requirements of the project, we carefully selected a modern technology stack:
+\begin{itemize}
+    \item \textbf{Kotlin:} The primary, statically-typed programming language used for Android development, offering null-safety and coroutines for asynchronous programming.
+    \item \textbf{Google Nearby Connections API:} The engine driving our offline mesh network, handling device discovery, connection handshakes, and payload transfers over Bluetooth and WiFi.
+    \item \textbf{Room Database (SQLite):} A powerful local persistence library that safely stores incoming and outgoing SOS messages directly on the device's internal storage, even when the app is closed.
+    \item \textbf{osmdroid:} A highly customizable, open-source map viewer. Unlike Google Maps, osmdroid explicitly supports offline tile caching, allowing rescuers to view detailed geographic data completely without an internet connection.
+    \item \textbf{Firebase Firestore:} A NoSQL cloud database used to synchronize the locally collected SOS messages. It acts as the centralized command center for remote authorities.
+    \item \textbf{Android WorkManager:} A reliable background task scheduler used to quietly sync data to Firebase whenever the device connects to the internet, without draining the battery.
+\end{itemize}
+
+\section{Application Data Flow}
+The logic of the application is designed to be fully asynchronous and non-blocking. The data flow proceeds as follows:
+\begin{enumerate}
+    \item \textbf{Initiation:} A user initiates an SOS broadcast by pressing the emergency button on the dashboard.
+    \item \textbf{Data Capture:} The application queries the device's GPS hardware to capture the exact latitude and longitude. The user can also append a text status or a recorded voice note.
+    \item \textbf{Local Storage:} The composed message is immediately saved to the local Room database to ensure it isn't lost if the app crashes.
+    \item \textbf{Broadcasting:} The Nearby Connections API packages this data into a secure byte payload and broadcasts it to all connected peers in the local mesh cluster.
+    \item \textbf{Re-broadcasting (The Mesh Effect):} When receiving devices acquire the payload, they store it locally and instantly re-broadcast it to *their* connected peers, expanding the physical range of the SOS signal exponentially.
+    \item \textbf{Cloud Sync:} Finally, if any device containing these stored SOS messages connects to a cellular tower or WiFi with internet access, the WorkManager task activates and uploads the entire chain of data to Firebase Firestore for remote access by emergency services.
+\end{enumerate}

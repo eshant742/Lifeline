@@ -45,9 +45,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         senderName: String,
         senderPhone: String,
         status: String,
-        content: String
+        content: String,
+        latitude: Double,
+        longitude: Double
     ): MessageEntity {
-        val location = _currentLocation.value
         return MessageEntity(
             id = UUID.randomUUID().toString(),
             senderId = senderId,
@@ -55,8 +56,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             senderPhone = senderPhone,
             status = status,
             content = content,
-            latitude = location?.first ?: 0.0,
-            longitude = location?.second ?: 0.0,
+            latitude = latitude,
+            longitude = longitude,
             timestamp = System.currentTimeMillis()
         )
     }

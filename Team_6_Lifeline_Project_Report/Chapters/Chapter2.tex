@@ -1,0 +1,44 @@
+% Chapter 2
+
+\chapter{Literature Review and Background} 
+
+\label{Chapter2}
+
+\section{Traditional Emergency SOS Systems}
+Currently available emergency applications heavily depend on cellular services. When a user triggers an SOS, the system typically sends an SMS containing their GPS coordinates to pre-selected contacts, or it initiates a VoIP call to emergency services over mobile data. While effective in normal conditions, these systems exhibit a single point of failure: the cellular network. During large-scale disasters, cellular towers are often destroyed, stripped of power, or simply overwhelmed by a sudden surge in traffic as thousands of people attempt to call their loved ones simultaneously. This renders traditional SOS applications entirely ineffective just when they are needed most.
+
+\section{Comparison: Traditional Apps vs Lifeline}
+To clearly illustrate the paradigm shift, Table \ref{table:comparison} outlines the core differences between traditional emergency applications and the Lifeline system.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|p{4cm}|p{5cm}|p{5cm}|}
+\hline
+\textbf{Feature} & \textbf{Traditional SOS Apps} & \textbf{Lifeline App} \\ \hline
+\textbf{Network Required} & Cellular Network, Internet & None (Offline P2P) \\ \hline
+\textbf{Hardware Reliance} & Telecom Towers & Standard Smartphone Radios \\ \hline
+\textbf{Disaster Resilience} & Low (Fails on grid collapse) & High (Independent of grid) \\ \hline
+\textbf{Range Limit} & Global (if connected) & Local Mesh (Expandable via hops) \\ \hline
+\textbf{Voice Support} & High-bandwidth VoIP & Low-bandwidth offline audio bytes \\ \hline
+\end{tabular}
+\caption{Comparison of Emergency Communication Systems}
+\label{table:comparison}
+\end{table}
+
+\section{The Concept of Mesh Networking}
+A mesh network is a local network topology in which the infrastructure nodes (in this case, smartphones) connect directly, dynamically, and non-hierarchically to as many other nodes as possible. Instead of all devices talking to a central cellular tower, they cooperate with one another to efficiently route data from and to clients. 
+
+This decentralized structure is the backbone of Lifeline. It allows the network to remain operational even when an individual node or connection fails. Lifeline adopts this concept by turning everyday smartphones into individual relay nodes that can securely pass distress signals along a chain of devices until the signal physically moves out of the disaster zone and reaches help.
+
+\section{Google Nearby Connections API}
+To facilitate the creation of this offline mesh network without requiring users to manually configure their Bluetooth settings, the Lifeline application utilizes the \textbf{Google Nearby Connections API}. 
+
+\subsection{How It Works}
+This API allows applications to discover, connect to, and exchange data with nearby devices in real-time. Under the hood, it abstracts the immense complexity of raw radio technologies and intelligently switches between:
+\begin{itemize}
+    \item \textbf{Bluetooth Low Energy (BLE):} Used for highly energy-efficient, continuous background discovery of nearby devices.
+    \item \textbf{Classic Bluetooth:} Used for establishing initial connections and sending small payloads (like text SOS messages and GPS coordinates).
+    \item \textbf{WiFi Direct:} Automatically upgraded to when a high-bandwidth connection is required (such as when transmitting a recorded voice note).
+\end{itemize}
+
+Lifeline uses the "Cluster" strategy of this API. The Cluster strategy is specifically designed to create small, dynamic, and decentralized networks of peer devices, making it the perfect choice for ad-hoc disaster communication.

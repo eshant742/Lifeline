@@ -272,12 +272,28 @@ class MainActivity : AppCompatActivity() {
         val customMessage = binding.etMessage.text.toString().trim()
         val content = if (customMessage.isNotEmpty()) customMessage else "SOS - $currentStatus"
 
+        var lat = viewModel.currentLocation.value?.first ?: 0.0
+        var lng = viewModel.currentLocation.value?.second ?: 0.0
+
+        if (lat == 0.0 && lng == 0.0) {
+            val fallback = locationManager.getLastKnownLocationSync()
+            if (fallback != null) {
+                lat = fallback.latitude
+                lng = fallback.longitude
+                viewModel.updateLocation(lat, lng)
+            } else {
+                Toast.makeText(this, "GPS signal weak. Sending with unknown location.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         val message = viewModel.createSosMessage(
             senderId = deviceId,
             senderName = userName,
             senderPhone = userPhone,
             status = currentStatus,
-            content = content
+            content = content,
+            latitude = lat,
+            longitude = lng
         )
 
         // Save locally

@@ -1,0 +1,40 @@
+% Chapter 4
+
+\chapter{Implementation and Core Features} 
+
+\label{Chapter4}
+
+\section{Offline SOS Broadcasting}
+The core function of Lifeline is to empower users to broadcast a distress signal effortlessly, even under extreme duress. The application features a prominent, highly visible SOS button on the main dashboard. 
+
+Upon activation, the application queries the device's native `LocationManager` and `FusedLocationProviderClient`. It aggressively attempts to retrieve the most accurate GPS coordinates available. Once locked, these coordinates—along with the user's declared status ("SAFE" or "TRAPPED"), their emergency contact information, and an optional custom text message—are serialized into a lightweight byte array payload and continuously broadcasted to the local environment.
+
+\section{Audio SOS Messages}
+During building collapses or severe injuries, a user may be physically incapable of typing a detailed message. To provide crucial context to rescuers, the application allows users to record brief audio messages using the device's microphone. 
+
+Because audio files are significantly larger than text coordinates, they cannot be efficiently sent over Bluetooth Low Energy. Therefore, Lifeline leverages the Nearby Connections API to automatically negotiate a high-bandwidth WiFi Direct channel between peers. Once established, the audio bytes are transmitted at high speeds. Upon receiving the audio bytes, nearby devices can instantly play back the voice message, allowing rescuers to hear the victim's exact situation.
+
+\section{Offline Rescue Maps}
+A distress signal is useless if rescuers cannot navigate to the location. Since Google Maps and other commercial mapping services require an active internet connection to load tiles, they fail during disasters.
+
+Lifeline incorporates a robust offline map feature powered by the `osmdroid` library. 
+\begin{itemize}
+    \item \textbf{Pre-Caching:} Before venturing into disaster-prone areas, users or rescue workers can cache the map tiles of a specific region into their device's local storage.
+    \item \textbf{Live Plotting:} During an emergency, when distress signals (containing latitude and longitude) are received via the mesh network, the application plots these signals as distinct red markers directly on the cached offline map. 
+\end{itemize}
+This visual representation allows peers and rescuers to identify the exact geographic location of trapped individuals and navigate towards them without relying on a cellular data connection.
+
+\section{Use Case Scenario: The Earthquake Protocol}
+To understand the practical application of Lifeline, consider the following scenario:
+\begin{enumerate}
+    \item A massive earthquake strikes a city, instantly bringing down all cellular towers.
+    \item Victim A is trapped in a basement. They open Lifeline and press the SOS button.
+    \item The app fetches their GPS location and begins broadcasting via Bluetooth.
+    \item Person B, walking on the street 50 meters away, has Lifeline installed. Their phone silently picks up Victim A's signal, stores it, and begins re-broadcasting it.
+    \item Rescue Worker C, 150 meters away, picks up the signal from Person B. The offline map on Worker C's phone plots a red marker showing exactly where Victim A is buried.
+\end{enumerate}
+
+\section{Background Cloud Synchronization}
+While the primary focus is offline, localized communication, Lifeline also bridges the gap to the outside world. It features a `SyncWorker` built on top of Android's `WorkManager`. 
+
+This background service periodically pings for an active internet connection. If a connection is detected (e.g., a rescue worker leaves the disaster zone and enters a functioning city), the service automatically uploads all locally stored SOS messages from the mesh network to a central Firebase Firestore database. This ensures that the entire chain of distress signals is backed up and made available in real-time to remote government authorities and disaster management teams across the globe.

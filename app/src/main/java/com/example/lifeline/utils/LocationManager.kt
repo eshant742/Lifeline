@@ -101,6 +101,26 @@ class LocationManager(private val context: Context) {
         locationCallback = null
     }
 
+    /**
+     * Get the last known location synchronously using Android's native LocationManager.
+     * This acts as a fallback when FusedLocationProvider hasn't returned a location yet.
+     */
+    fun getLastKnownLocationSync(): Location? {
+        if (!hasLocationPermission()) return null
+        val locManager = context.getSystemService(Context.LOCATION_SERVICE) as android.location.LocationManager
+        return try {
+            val gpsLoc = locManager.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER)
+            val netLoc = locManager.getLastKnownLocation(android.location.LocationManager.NETWORK_PROVIDER)
+            when {
+                gpsLoc != null && netLoc != null -> if (gpsLoc.time > netLoc.time) gpsLoc else netLoc
+                else -> gpsLoc ?: netLoc
+            }
+        } catch (e: SecurityException) {
+            Log.e(TAG, "SecurityException: ${e.message}")
+            null
+        }
+    }
+
     private fun hasLocationPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(
             context,

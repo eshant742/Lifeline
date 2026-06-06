@@ -1,0 +1,31 @@
+% Chapter 1
+
+\chapter{Introduction} 
+
+\label{Chapter1}
+
+\section{Overview}
+Natural disasters such as earthquakes, tsunamis, and severe storms often result in the immediate and catastrophic collapse of local communication infrastructure. During these events, cellular towers lose power, fiber optic cables are severed, and internet service providers experience prolonged downtimes due to physical damage or sudden traffic congestion. In these critical hours, affected individuals are left completely isolated, unable to call for help, notify their families of their safety, or coordinate with search and rescue teams. The "Lifeline" project aims to address this critical communication gap by providing a reliable, offline-first platform that operates entirely independently of traditional network infrastructures.
+
+\section{Problem Statement}
+During and immediately following a disaster, the inability to broadcast a distress signal significantly hinders search and rescue operations. Traditional SOS applications and built-in mobile features rely exclusively on SMS or active mobile data connections to function. When the cellular grid fails, these applications are rendered completely useless. Victims find themselves trapped under debris or isolated by floodwaters without any means of signaling their precise location or status to the outside world, drastically reducing their chances of a timely rescue.
+
+\section{Motivation}
+The primary motivation behind this project stems from analyzing the communication failures during recent global natural disasters. Time is the most critical factor in rescue operations; the "golden hours" immediately following an incident dictate survival rates. We realized that while modern smartphones are incredibly powerful devices equipped with diverse radio technologies (Bluetooth, WiFi), they become practically useless "bricks" when disconnected from the internet. Lifeline was conceived to unlock the latent potential of these devices by allowing them to communicate directly with one another.
+
+\section{Objective}
+The primary objective of this project is to design, develop, and test an Android application capable of broadcasting and receiving emergency SOS signals without requiring a SIM card, cellular network, or active internet connection. 
+
+To achieve this, the application constructs a decentralized peer-to-peer (P2P) mesh network using the physical Bluetooth and WiFi Direct radios present in modern smartphones. This allows the application to relay distress signals invisibly across a chain of nearby devices until the signal reaches a rescuer or a node with an active internet connection.
+
+\section{Scope of the Project}
+The project encompasses the following core areas and deliverables:
+\begin{itemize}
+    \item \textbf{Offline Communication Protocol:} Implementation of a decentralized, multi-hop communication system using the Google Nearby Connections API.
+    \item \textbf{SOS Data Broadcasting:} Development of an offline SOS broadcast system supporting the transmission of exact GPS coordinates, user safety status (SAFE/TRAPPED), and custom voice data.
+    \item \textbf{Geographic Visualization:} Integration of an offline map viewer powered by `osmdroid` to visually pinpoint distress signals on a map without requiring internet access.
+    \item \textbf{Cloud Integration:} Design of a background synchronization mechanism (using Android WorkManager) to upload collected SOS data to a cloud database (Firebase Firestore) whenever any node in the mesh network regains internet access, ensuring remote authorities can access the data.
+\end{itemize}
+
+\section{Report Organization}
+The remainder of this report is organized as follows: Chapter 2 discusses the literature review and the background of mesh networking. Chapter 3 outlines the system design, architecture, and core technologies utilized. Chapter 4 provides a detailed explanation of the implementation and core features of the application. Finally, Chapter 5 concludes the report and discusses the future scope of the project.
