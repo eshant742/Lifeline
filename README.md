@@ -44,4 +44,17 @@ Lifeline requires the following permissions to function:
 *   `BLUETOOTH` / `BLUETOOTH_ADVERTISE` / `NEARBY_WIFI_DEVICES`: To construct the offline mesh network.
 *   `RECORD_AUDIO`: To capture voice SOS messages.
 
-*Disclaimer: This app was built as an emergency proof-of-concept and should not solely be relied upon for life-threatening situations without extensive testing.*
+___
+
+
+## 👨‍💻 Team
+
+Developed by a 5-member team:
+* **Eshant Guta** – Backend & Mesh Networking Specialist (Core Engine, Google Nearby Connections API)
+* **Prashik Humane** – UI/UX & Mapping Engineer (Frontend, Material Design 3, osmdroid)
+* **Mayank** – Local Architecture Lead (State & Storage, MVVM, Room Database)
+* **Prateek Mishra** – Cloud & Background Services Engineer (Backend Sync, Firebase Firestore, WorkManager)
+* **Arun Kumar Swami** – QA, GPS & Permissions Lead (Testing, Hardware Execution, Android Permissions)
+___
+
+**⚠️Disclaimer**: *This app was built as an emergency proof-of-concept and should not solely be relied upon for life-threatening situations without extensive testing.*
