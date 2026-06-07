@@ -57,4 +57,9 @@ Developed by a 5-member team:
 * **Arun Kumar Swami** – QA, GPS & Permissions Lead (Testing, Hardware Execution, Android Permissions)
 ___
 
+## 🗺️ Future Scope
+
+* **Cross-Platform Mesh:** Expanding the Nearby Connections API to bridge SOS signals between Android and iOS devices.
+* **Encrypted Payloads:** Adding AES encryption to SOS text broadcasts to prevent bad actors from intercepting sensitive location data during a crisis.
+
 **⚠️Disclaimer**: *This app was built as an emergency proof-of-concept and should not solely be relied upon for life-threatening situations without extensive testing.*
