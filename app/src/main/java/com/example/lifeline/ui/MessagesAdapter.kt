@@ -1,6 +1,7 @@
 package com.example.lifeline.ui
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -14,7 +15,14 @@ import java.util.*
 
 /**
  * MessagesAdapter — RecyclerView adapter for displaying SOS messages.
- * Color-coded: Red for TRAPPED, Green for SAFE.
+ *
+ * Enhanced with:
+ * - Priority badges (P1-P5) with color coding
+ * - Message type icons (SOS, ACK, HEARTBEAT, RESOURCE, DANGER_ZONE)
+ * - Hop count / relay indicator
+ * - Medical info display (blood type, allergies)
+ * - Rescue status display
+ * - Color-coded status: Red for TRAPPED/INJURED, Green for SAFE
  */
 class MessagesAdapter(
     private val onItemClick: ((MessageEntity) -> Unit)? = null
@@ -35,21 +43,92 @@ class MessagesAdapter(
                     message.latitude, message.longitude
                 )
 
-                // Status badge
+                // ── Message Type Icon ──
+                tvMessageTypeIcon.text = getMessageTypeIcon(message.messageType)
+
+                // ── Priority Badge ──
+                tvPriority.text = "P${message.priority}"
+                tvPriority.setBackgroundColor(getPriorityColor(message.priority))
+                tvPriority.visibility = if (message.messageType == "HEARTBEAT") View.GONE else View.VISIBLE
+
+                // ── Status Badge ──
                 tvStatus.text = message.status
-                val statusColor = if (message.status == "TRAPPED") {
-                    ContextCompat.getColor(root.context, R.color.emergency_red)
-                } else {
-                    ContextCompat.getColor(root.context, R.color.safe_green)
+                val statusColor = when (message.status) {
+                    "TRAPPED", "INJURED" -> ContextCompat.getColor(root.context, R.color.emergency_red)
+                    "SAFE", "EVACUATED" -> ContextCompat.getColor(root.context, R.color.safe_green)
+                    else -> ContextCompat.getColor(root.context, R.color.warning_amber)
                 }
                 tvStatus.setBackgroundColor(statusColor)
 
-                // Status indicator bar
+                // ── Status Indicator Bar ──
                 statusIndicator.setBackgroundColor(statusColor)
+
+                // ── Hop Count / Relay Indicator ──
+                if (message.hopCount == 0) {
+                    tvHopCount.text = "↗ Direct"
+                } else {
+                    tvHopCount.text = "↗ via ${message.hopCount} relay${if (message.hopCount > 1) "s" else ""}"
+                }
+
+                // ── Medical Info ──
+                val hasMedicalInfo = message.bloodType.isNotEmpty() ||
+                        message.allergies.isNotEmpty() ||
+                        message.medicalConditions.isNotEmpty()
+
+                if (hasMedicalInfo && (message.messageType == "SOS" || message.messageType == "STATUS_UPDATE")) {
+                    layoutMedicalInfo.visibility = View.VISIBLE
+                    val medParts = mutableListOf<String>()
+                    if (message.bloodType.isNotEmpty()) medParts.add("🩸 ${message.bloodType}")
+                    if (message.allergies.isNotEmpty()) medParts.add("⚠️ ${message.allergies}")
+                    if (message.medicalConditions.isNotEmpty()) medParts.add("🏥 ${message.medicalConditions}")
+                    tvMedicalInfo.text = medParts.joinToString(" | ")
+                } else {
+                    layoutMedicalInfo.visibility = View.GONE
+                }
+
+                // ── Rescue Status ──
+                if (message.rescueStatus.isNotEmpty() && message.rescueStatus != "") {
+                    tvRescueStatus.visibility = View.VISIBLE
+                    val rescueIcon = when (message.rescueStatus) {
+                        "RECEIVED" -> "📨"
+                        "EN_ROUTE" -> "🚑"
+                        "REACHED" -> "📍"
+                        "FIRST_AID" -> "🩹"
+                        "EVACUATED" -> "✅"
+                        else -> "🔄"
+                    }
+                    tvRescueStatus.text = "$rescueIcon ${message.rescuerName}: ${message.rescueStatus}"
+                } else {
+                    tvRescueStatus.visibility = View.GONE
+                }
 
                 root.setOnClickListener {
                     onItemClick?.invoke(message)
                 }
+            }
+        }
+
+        private fun getMessageTypeIcon(type: String): String {
+            return when (type) {
+                "SOS" -> "🆘"
+                "ACK" -> "✅"
+                "HEARTBEAT" -> "💚"
+                "RESOURCE" -> "📦"
+                "DANGER_ZONE" -> "⚠️"
+                "STATUS_UPDATE" -> "📝"
+                else -> "📨"
+            }
+        }
+
+        private fun getPriorityColor(priority: Int): Int {
+            val context = binding.root.context
+            return when (priority) {
+                5 -> ContextCompat.getColor(context, R.color.emergency_red)       // Critical
+                4 -> ContextCompat.getColor(context, R.color.warning_amber)       // High
+                3 -> ContextCompat.getColor(context, R.color.warning_amber)       // Medium
+                2 -> ContextCompat.getColor(context, R.color.safe_green)          // Info
+                1 -> ContextCompat.getColor(context, R.color.safe_green)          // Low
+                else -> ContextCompat.getColor(context, R.color.text_secondary)
             }
         }
 

@@ -8,16 +8,16 @@ import com.google.android.gms.nearby.connection.*
 import com.google.gson.Gson
 
 /**
- * NearbyManager — The core peer-to-peer engine.
+ * NearbyManager — The original peer-to-peer engine (Kotlin).
  *
- * Uses Google Nearby Connections API with P2P_CLUSTER strategy to:
- * - Advertise this device as an SOS node
- * - Discover other Lifeline devices nearby
- * - Auto-connect and exchange SOS messages
- * - Relay received messages to all connected peers (mesh propagation)
+ * @deprecated Replaced by {@link com.example.lifeline.core.NearbyMeshEngine} (Java)
+ * which provides thread-safe ConcurrentHashMap, bounded LRU cache (fixes OOM),
+ * AES-256-GCM encryption, GZIP compression, gossip protocol relay,
+ * Store-and-Forward DTN, rate limiting, and audio relay through mesh.
  *
- * Works without internet — uses Bluetooth + WiFi Direct.
+ * This class is kept for reference only. Do NOT use in production.
  */
+@Deprecated("Use NearbyMeshEngine via MeshForegroundService instead")
 class NearbyManager(private val context: Context) {
 
     companion object {

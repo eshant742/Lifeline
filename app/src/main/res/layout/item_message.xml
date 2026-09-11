@@ -31,12 +31,21 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Header Row -->
+            <!-- Header Row: Name + Priority Badge + Status -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
+
+                <!-- Message Type Icon -->
+                <TextView
+                    android:id="@+id/tvMessageTypeIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🆘"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="6dp"/>
 
                 <TextView
                     android:id="@+id/tvSenderName"
@@ -47,6 +56,20 @@
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary"/>
+
+                <!-- Priority Badge -->
+                <TextView
+                    android:id="@+id/tvPriority"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="P5"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:paddingHorizontal="6dp"
+                    android:paddingVertical="2dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="@color/emergency_red"/>
 
                 <TextView
                     android:id="@+id/tvStatus"
@@ -61,15 +84,32 @@
                     android:background="@color/emergency_red"/>
             </LinearLayout>
 
-            <!-- Phone -->
-            <TextView
-                android:id="@+id/tvSenderPhone"
-                android:layout_width="wrap_content"
+            <!-- Phone + Role -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="📞 Phone"
-                android:textSize="13sp"
-                android:textColor="@color/text_secondary"
-                android:layout_marginTop="2dp"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="2dp">
+
+                <TextView
+                    android:id="@+id/tvSenderPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="📞 Phone"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_secondary"/>
+
+                <!-- Hop Count / Relay Indicator -->
+                <TextView
+                    android:id="@+id/tvHopCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="↗ Direct"
+                    android:textSize="11sp"
+                    android:textColor="@color/text_secondary"/>
+            </LinearLayout>
 
             <!-- Content -->
             <TextView
@@ -81,6 +121,39 @@
                 android:textColor="@color/text_primary"
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="4dp"/>
+
+            <!-- Medical Info (only shown for SOS with medical data) -->
+            <LinearLayout
+                android:id="@+id/layoutMedicalInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:background="@color/dark_surface_variant">
+
+                <TextView
+                    android:id="@+id/tvMedicalInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="🩸 O+ | ⚠️ Penicillin"
+                    android:textSize="12sp"
+                    android:textColor="@color/warning_amber"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- Rescue Status (only shown when rescue is in progress) -->
+            <TextView
+                android:id="@+id/tvRescueStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🚑 Rescuer: John — EN_ROUTE"
+                android:textSize="12sp"
+                android:textColor="@color/safe_green"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"/>
 
             <!-- Footer Row -->
             <LinearLayout

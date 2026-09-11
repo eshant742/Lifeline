@@ -1,121 +1,281 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_background"
-    android:padding="24dp">
+    android:fillViewport="true">
 
-    <!-- App Title -->
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lifeline"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="@color/text_primary"
-        android:letterSpacing="-0.02"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="64dp"/>
+        android:padding="24dp">
 
-    <TextView
-        android:id="@+id/tvSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Emergency Setup"
-        android:textSize="16sp"
-        android:textColor="@color/text_secondary"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="4dp"/>
-
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Your identity will be shared securely over the offline mesh network when you trigger an SOS signal."
-        android:textSize="14sp"
-        android:textColor="@color/text_secondary"
-        android:lineSpacingExtra="4dp"
-        app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"/>
-
-    <!-- Name Input -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Full Name"
-        app:layout_constraintTop_toBottomOf="@id/tvDescription"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
-        app:boxCornerRadiusTopStart="12dp"
-        app:boxCornerRadiusTopEnd="12dp"
-        app:boxCornerRadiusBottomStart="12dp"
-        app:boxCornerRadiusBottomEnd="12dp"
-        app:boxStrokeColor="@color/border_color"
-        app:hintTextColor="@color/text_secondary"
-        app:boxBackgroundColor="@color/dark_surface">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etName"
-            android:layout_width="match_parent"
+        <!-- App Title -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:text="Lifeline"
+            android:textSize="32sp"
+            android:textStyle="bold"
             android:textColor="@color/text_primary"
-            android:textSize="16sp"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:letterSpacing="-0.02"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="32dp"/>
 
-    <!-- Phone Input -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPhone"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Phone Number"
-        app:layout_constraintTop_toBottomOf="@id/tilName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        app:boxCornerRadiusTopStart="12dp"
-        app:boxCornerRadiusTopEnd="12dp"
-        app:boxCornerRadiusBottomStart="12dp"
-        app:boxCornerRadiusBottomEnd="12dp"
-        app:boxStrokeColor="@color/border_color"
-        app:hintTextColor="@color/text_secondary"
-        app:boxBackgroundColor="@color/dark_surface">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPhone"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="phone"
+            android:text="Emergency Setup"
+            android:textSize="16sp"
+            android:textColor="@color/text_secondary"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Your identity and medical profile will be shared securely over the offline mesh network when you trigger an SOS signal."
+            android:textSize="14sp"
+            android:textColor="@color/text_secondary"
+            android:lineSpacingExtra="4dp"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"/>
+
+        <!-- ── Identity Section ── -->
+        <TextView
+            android:id="@+id/tvSectionIdentity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Identity"
+            android:textSize="14sp"
+            android:textStyle="bold"
             android:textColor="@color/text_primary"
-            android:textSize="16sp"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:letterSpacing="0.05"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="28dp"/>
 
-    <!-- Save Button -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSave"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:text="Continue"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.02"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/emergency_red"
-        app:cornerRadius="12dp"
-        app:layout_constraintTop_toBottomOf="@id/tilPhone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"/>
+        <!-- Name Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Full Name"
+            app:layout_constraintTop_toBottomOf="@id/tvSectionIdentity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="@color/border_color"
+            app:hintTextColor="@color/text_secondary"
+            app:boxBackgroundColor="@color/dark_surface">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Phone Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPhone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            app:layout_constraintTop_toBottomOf="@id/tilName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="@color/border_color"
+            app:hintTextColor="@color/text_secondary"
+            app:boxBackgroundColor="@color/dark_surface">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ── Medical Profile Section ── -->
+        <TextView
+            android:id="@+id/tvSectionMedical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medical Profile"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary"
+            android:letterSpacing="0.05"
+            app:layout_constraintTop_toBottomOf="@id/tilPhone"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="28dp"/>
+
+        <TextView
+            android:id="@+id/tvMedicalDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="This info is embedded in SOS signals so first responders know your medical needs immediately."
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:lineSpacingExtra="2dp"
+            app:layout_constraintTop_toBottomOf="@id/tvSectionMedical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"/>
+
+        <!-- Blood Type Spinner -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilBloodType"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="🩸 Blood Type"
+            app:layout_constraintTop_toBottomOf="@id/tvMedicalDescription"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="@color/border_color"
+            app:hintTextColor="@color/text_secondary"
+            app:boxBackgroundColor="@color/dark_surface">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinnerBloodType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Allergies -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilAllergies"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="⚠️ Allergies (e.g., Penicillin, Peanuts)"
+            app:layout_constraintTop_toBottomOf="@id/tilBloodType"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="@color/border_color"
+            app:hintTextColor="@color/text_secondary"
+            app:boxBackgroundColor="@color/dark_surface">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAllergies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Medical Conditions -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilMedicalConditions"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="🏥 Medical Conditions (e.g., Diabetes, Asthma)"
+            app:layout_constraintTop_toBottomOf="@id/tilAllergies"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="@color/border_color"
+            app:hintTextColor="@color/text_secondary"
+            app:boxBackgroundColor="@color/dark_surface">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etMedicalConditions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Emergency Contact -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmergencyContact"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="📞 Emergency Contact (e.g., Mom: +91-9876543210)"
+            app:layout_constraintTop_toBottomOf="@id/tilMedicalConditions"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxStrokeColor="@color/border_color"
+            app:hintTextColor="@color/text_secondary"
+            app:boxBackgroundColor="@color/dark_surface">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmergencyContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Save Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:text="Continue"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.02"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/emergency_red"
+            app:cornerRadius="12dp"
+            app:layout_constraintTop_toBottomOf="@id/tilEmergencyContact"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

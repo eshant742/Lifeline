@@ -2,25 +2,43 @@ package com.example.lifeline.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.lifeline.R
 import com.example.lifeline.databinding.ActivityUserIdentityBinding
 
 /**
- * First-launch identity setup screen.
- * Collects user's name and phone number for SOS messages.
+ * First-launch identity and medical profile setup screen.
+ *
+ * Collects:
+ * - User's name and phone number for SOS messages
+ * - Blood type, allergies, medical conditions, emergency contact
+ *
+ * All data is saved to SharedPreferences and embedded in every SOS broadcast.
  * Shown only once — navigates to MainActivity after setup.
  */
 class UserIdentityActivity : AppCompatActivity() {
 
     companion object {
         const val PREFS_NAME = "lifeline_prefs"
+        // Identity keys
         const val KEY_USER_NAME = "user_name"
         const val KEY_USER_PHONE = "user_phone"
         const val KEY_IDENTITY_SET = "identity_set"
+        // Medical profile keys
+        const val KEY_BLOOD_TYPE = "blood_type"
+        const val KEY_ALLERGIES = "allergies"
+        const val KEY_MEDICAL_CONDITIONS = "medical_conditions"
+        const val KEY_EMERGENCY_CONTACT = "emergency_contact"
     }
 
     private lateinit var binding: ActivityUserIdentityBinding
+
+    // Blood type options
+    private val bloodTypes = arrayOf(
+        "Not specified", "O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +53,21 @@ class UserIdentityActivity : AppCompatActivity() {
         binding = ActivityUserIdentityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupBloodTypeDropdown()
+
         binding.btnSave.setOnClickListener {
             saveIdentity()
         }
+    }
+
+    private fun setupBloodTypeDropdown() {
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            bloodTypes
+        )
+        binding.spinnerBloodType.setAdapter(adapter)
+        binding.spinnerBloodType.setText(bloodTypes[0], false)
     }
 
     private fun saveIdentity() {
@@ -53,14 +83,31 @@ class UserIdentityActivity : AppCompatActivity() {
             return
         }
 
+        // Get medical profile (all optional)
+        val selectedBloodType = binding.spinnerBloodType.text.toString()
+        val bloodType = if (selectedBloodType == "Not specified") "" else selectedBloodType
+        val allergies = binding.etAllergies.text.toString().trim()
+        val medicalConditions = binding.etMedicalConditions.text.toString().trim()
+        val emergencyContact = binding.etEmergencyContact.text.toString().trim()
+
         val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         prefs.edit()
+            // Identity
             .putString(KEY_USER_NAME, name)
             .putString(KEY_USER_PHONE, phone)
             .putBoolean(KEY_IDENTITY_SET, true)
+            // Medical profile
+            .putString(KEY_BLOOD_TYPE, bloodType)
+            .putString(KEY_ALLERGIES, allergies)
+            .putString(KEY_MEDICAL_CONDITIONS, medicalConditions)
+            .putString(KEY_EMERGENCY_CONTACT, emergencyContact)
             .apply()
 
-        Toast.makeText(this, "Identity saved!", Toast.LENGTH_SHORT).show()
+        val medicalInfo = buildString {
+            append("Identity saved!")
+            if (bloodType.isNotEmpty()) append(" 🩸$bloodType")
+        }
+        Toast.makeText(this, medicalInfo, Toast.LENGTH_SHORT).show()
         navigateToMain()
     }
 

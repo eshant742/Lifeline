@@ -9,6 +9,8 @@ import java.util.UUID
 
 /**
  * MainViewModel — Manages app state and business logic for MainActivity.
+ * Updated with medical profile support, role toggle, priority classification,
+ * and rescue coordination.
  */
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -25,6 +27,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _isBroadcasting = MutableLiveData(false)
     val isBroadcasting: LiveData<Boolean> = _isBroadcasting
 
+    private val _userRole = MutableLiveData("VICTIM")
+    val userRole: LiveData<String> = _userRole
+
+    private val _isFlashlightActive = MutableLiveData(false)
+    val isFlashlightActive: LiveData<Boolean> = _isFlashlightActive
+
     fun updateConnectionCount(count: Int) {
         _connectionCount.postValue(count)
     }
@@ -37,8 +45,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         _isBroadcasting.postValue(broadcasting)
     }
 
+    fun setUserRole(role: String) {
+        _userRole.postValue(role)
+    }
+
+    fun setFlashlightActive(active: Boolean) {
+        _isFlashlightActive.postValue(active)
+    }
+
     /**
-     * Create and return an SOS message entity.
+     * Create an SOS message with full medical profile and mesh networking fields.
      */
     fun createSosMessage(
         senderId: String,
@@ -47,8 +63,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         status: String,
         content: String,
         latitude: Double,
-        longitude: Double
+        longitude: Double,
+        messageType: String = "SOS",
+        priority: Int = 3,
+        bloodType: String = "",
+        allergies: String = "",
+        medicalConditions: String = "",
+        emergencyContact: String = "",
+        senderRole: String = "VICTIM"
     ): MessageEntity {
+        // Auto-classify priority based on status and keywords
+        val autoPriority = classifyPriority(status, content, priority)
+
         return MessageEntity(
             id = UUID.randomUUID().toString(),
             senderId = senderId,
@@ -58,8 +84,47 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             content = content,
             latitude = latitude,
             longitude = longitude,
-            timestamp = System.currentTimeMillis()
+            timestamp = System.currentTimeMillis(),
+            messageType = messageType,
+            priority = autoPriority,
+            bloodType = bloodType,
+            allergies = allergies,
+            medicalConditions = medicalConditions,
+            emergencyContact = emergencyContact,
+            senderRole = senderRole
         )
+    }
+
+    /**
+     * Smart Priority Classification (NLP keyword-based).
+     * Scans message content for severity indicators and adjusts priority.
+     */
+    private fun classifyPriority(status: String, content: String, basePriority: Int): Int {
+        val lowerContent = content.lowercase()
+
+        // Critical keywords → Priority 5
+        val criticalKeywords = listOf(
+            "bleeding", "blood", "unconscious", "not breathing", "heart attack",
+            "fire", "collapse", "child", "baby", "pregnant", "dying", "crushed",
+            "can't breathe", "broken bone", "fracture", "severe", "critical",
+            "drowning", "electrocution", "gas leak"
+        )
+        if (criticalKeywords.any { lowerContent.contains(it) }) return 5
+
+        // High keywords → Priority 4
+        val highKeywords = listOf(
+            "trapped", "injured", "hurt", "pain", "stuck", "help",
+            "water rising", "smoke", "no food", "no water", "medication"
+        )
+        if (highKeywords.any { lowerContent.contains(it) }) return 4
+
+        // Status-based priority
+        return when (status) {
+            "TRAPPED" -> maxOf(basePriority, 4)
+            "INJURED" -> maxOf(basePriority, 4)
+            "SAFE" -> 1
+            else -> basePriority
+        }
     }
 
     /**

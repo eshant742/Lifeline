@@ -18,8 +18,25 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <!-- For file storage (Offline Maps cache) on older Android -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+
+    <!-- NEW: Foreground Service (keeps mesh alive 24/7) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- NEW: Camera flashlight for Morse SOS -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+
+    <!-- NEW: Vibration for haptic alerts -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- NEW: SMS for Last Gasp protocol -->
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -45,6 +62,13 @@
         <activity android:name=".ui.OfflineMapActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>
+
+        <!-- NEW: Foreground Service for persistent mesh networking -->
+        <service
+            android:name=".core.MeshForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="connectedDevice" />
+
     </application>
 
 </manifest>

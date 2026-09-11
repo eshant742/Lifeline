@@ -29,8 +29,26 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/chipRole"
+            android:layout_marginEnd="8dp"/>
+
+        <!-- Role Toggle Chip -->
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipRole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="VICTIM"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/warning_amber"
+            app:chipCornerRadius="12dp"
+            app:chipMinHeight="28dp"
+            app:chipMinTouchTargetSize="0dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnRefreshPeers"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="8dp"/>
 
         <ImageView
             android:id="@+id/btnRefreshPeers"
@@ -118,6 +136,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="16dp"/>
 
+        <!-- Shake Detector Status -->
+        <TextView
+            android:id="@+id/tvShakeStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📳 Shake-to-SOS: Active"
+            android:textSize="11sp"
+            android:textColor="@color/safe_green"
+            app:layout_constraintTop_toBottomOf="@id/tvLocation"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="4dp"/>
+
         <!-- Status Toggle -->
         <LinearLayout
             android:id="@+id/statusToggle"
@@ -126,10 +156,10 @@
             android:orientation="horizontal"
             android:background="@color/dark_surface"
             android:padding="4dp"
-            app:layout_constraintTop_toBottomOf="@id/tvLocation"
+            app:layout_constraintTop_toBottomOf="@id/tvShakeStatus"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="12dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnTrapped"
@@ -202,7 +232,7 @@
                 app:boxStrokeColor="@color/border_color"
                 app:hintTextColor="@color/text_secondary"
                 app:boxBackgroundColor="@color/dark_surface"
-                android:layout_marginEnd="12dp">
+                android:layout_marginEnd="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etMessage"
@@ -219,6 +249,20 @@
                 android:layout_height="48dp"
                 app:icon="@android:drawable/ic_btn_speak_now"
                 app:iconTint="@color/text_primary"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
+                app:strokeColor="@color/border_color"
+                app:cornerRadius="12dp"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- SOS Flashlight Toggle -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFlashlight"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="🔦"
+                android:textSize="18sp"
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
                 app:strokeColor="@color/border_color"
